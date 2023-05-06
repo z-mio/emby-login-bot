@@ -1,0 +1,5 @@
+requests~=2.30.0
+PyYAML~=6.0
+APScheduler~=3.10.1
+Pyrogram~=2.0.104
+TgCrypto~=1.2.5
