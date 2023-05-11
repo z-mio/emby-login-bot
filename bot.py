@@ -6,6 +6,7 @@ import os
 import sqlite3
 
 import pyrogram
+import pytz
 import requests
 import yaml
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -13,7 +14,7 @@ from apscheduler.triggers.cron import CronTrigger
 from pyrogram import Client, filters
 from pyrogram.types import BotCommand
 
-scheduler = AsyncIOScheduler()
+scheduler = AsyncIOScheduler(timezone=pytz.timezone('Asia/Shanghai'))
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s: %(message)s',
     level=logging.INFO
@@ -396,7 +397,7 @@ def reset_emby_password(user_id):
     url = f"{emby_url}/Users/{user_id}/Password"
     header = {"X-Emby-Token": XEmbyToken}
     body = {"ResetPassword": True}
-    return requests.post(url, json=body, headers=header)
+    return requests.post(url, json=body, headers=header, timeout=10)
 
 
 # 通过id获取用户信息
