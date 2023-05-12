@@ -13,8 +13,9 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from pyrogram import Client, filters
 from pyrogram.types import BotCommand
-
-scheduler = AsyncIOScheduler(timezone=pytz.timezone('Asia/Shanghai'))
+tz = pytz.timezone('Asia/Shanghai')
+datetime.timezone = tz
+scheduler = AsyncIOScheduler()
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s: %(message)s',
     level=logging.INFO
