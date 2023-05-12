@@ -3,18 +3,22 @@ import datetime
 import json
 import logging
 import os
+import platform
 import sqlite3
+import time
 
 import pyrogram
-import pytz
 import requests
 import yaml
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from pyrogram import Client, filters
 from pyrogram.types import BotCommand
-tz = pytz.timezone('Asia/Shanghai')
-datetime.timezone = tz
+
+if platform.system() != 'Windows':
+    os.environ['TZ'] = 'Asia/Shanghai'
+    time.tzset()
+
 scheduler = AsyncIOScheduler()
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s: %(message)s',
@@ -322,9 +326,9 @@ async def bd():
 def timed_task():
     if chat and intervals:
         scheduler.add_job(task, 'interval', minutes=int(intervals))
+
     if bf_time:
         scheduler.add_job(bd, trigger=CronTrigger.from_crontab(bf_time))
-
     scheduler.start()
 
 
